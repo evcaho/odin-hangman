@@ -35,8 +35,7 @@ post "/" do
 	@guesses = session[:guesses]
 	store_name("names.txt", @letter)
 	@letters = read_names
-#	session[:guessed_letters] = []
-#	@guessed = session[:guessed_letters]
-#	@input_array = letter_array(letter)
+	session[:guesses] = session[:guesses] - 1
+	@guesses = session[:guesses]
 	erb :index
 end
