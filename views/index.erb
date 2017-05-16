@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <style>
+      body {
+        background: gray;
+        padding-top: 100px;
+        text-align:center;
+        font-size: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <p><%= @word %></p>
+    <p>You have <%= @guesses %></p>
+    <form action="/" method="post">
+  		<input type='text' name='letter' value="<%= @letter %>" />
+  		<input type='submit'>
+	</form>
+  <p> <% @letter %></p>
+  </body>
+</html>
