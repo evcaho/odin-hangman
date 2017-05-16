@@ -11,11 +11,15 @@
   </head>
   <body>
     <p><%= @word %></p>
-    <p>You have <%= @guesses %></p>
+    <p>You have <%= @guesses %> left </p>
     <form action="/" method="post">
-  		<input type='text' name='letter' value="<%= @letter %>" />
-  		<input type='submit'>
-	</form>
-  <p> <% @letter %></p>
+      <input type='text' name='letter' value="<%= @letter %>" />
+      <input type='submit'>
+  </form>
+  <ul>
+    <% @letters.each do |name| %>
+      <li><%= name %></li>
+    <% end %>
+  <ul>
   </body>
 </html>
