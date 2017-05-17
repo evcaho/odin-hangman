@@ -16,9 +16,10 @@
       <input type='text' name='letter' value="<%= @letter %>" />
       <input type='submit'>
   </form>
+  <p><%= @message %></p>
   <ul>
-    <% @letters.each do |name| %>
-      <li><%= name %></li>
+    <% @letters.each do |letter| %>
+      <li><%= letter %></li>
     <% end %>
   <ul>
   </body>
