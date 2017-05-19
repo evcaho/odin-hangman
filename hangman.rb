@@ -19,6 +19,14 @@ def read_names
 	File.read("names.txt").split("\n")
 end
 
+def check_includes(word, letter)
+  character_array = word.split("")
+  if character_array.include?(letter)
+    @confirmation = "The word contains the letter #{letter}"
+  end
+
+end
+
 class LetterValidator
 	def initialize(letter, letters)
     @letter = letter.to_s
@@ -63,8 +71,9 @@ end
 post "/" do
 	@letter = params[:letter].downcase
 	@letters = read_names
-	@word = session[:word]
+	@word = session[:word].downcase
 	@guesses = session[:guesses]
+  @contains_message = check_includes(@word, @letter)
 	validator = LetterValidator.new(@letter, @letters)
 
 	if validator.valid?
@@ -73,6 +82,7 @@ post "/" do
     	session[:guesses] = session[:guesses] - 1
     	@guesses = session[:guesses]
     	@message = "Successfully stored the letter #{@letter}."
+      @contains_message
     	if @guesses == 0 
     		redirect to "/lose"
     	end
