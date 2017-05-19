@@ -12,12 +12,14 @@
   <body>
     <p><%= @word %></p>
     <p>You have <%= @guesses %> left </p>
+    <p><%= @hidden_word %></p>
     <form action="/" method="post">
       <input type='text' name='letter' value="<%= @letter %>" />
       <input type='submit'>
   </form>
   <p><%= @message %></p>
-  <p><%= @contains_message %></p>
+  <p>Correctly guessed letters:<%= @correct_letters %></p>
+  <p>All guessed letters:</p>
   <ul>
     <% @letters.each do |letter| %>
       <li><%= letter %></li>
