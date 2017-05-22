@@ -35,8 +35,13 @@ def hide_word(word, guessed_letters)
       hidden_word.push("_")
     end
   end
-  hidden_word
+  hide = hidden_word.join("")
+  hide.gsub(/.{1}(?=.)/, '\0 ')
 
+end
+
+def hidden_display
+  hidden_array = hide_word(word, guessed_letters)
 end
 
 def check_includes(word, letter)
