@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'erb'
 require './word_generator'
+require './gamestate'
 
 enable :sessions
 
@@ -82,7 +83,6 @@ get "/" do
  		hangman = Hangmanword.new()
  		session[:word] = hangman.secret_word
  		session[:guesses] = 10
- 		@guesses = session[:guesses]
  		empty_file("names.txt")
     empty_file("correct.txt")
  	end
@@ -99,22 +99,20 @@ post "/" do
 	@letter = params[:letter].downcase
 	@letters = read_names("names.txt")
   @correct_letters = read_names("correct.txt")
-	@word = session[:word].downcase
-	@guesses = session[:guesses]
+	@word = session[:word]
 	validator = LetterValidator.new(@letter, @letters)
 
 	if validator.valid?
    		store_name("names.txt", @letter)
       if check_includes(@word, @letter)
         store_name("correct.txt", @letter)
-        @correct_letters = read_names("correct.txt")
         if win(@word, @correct_letters)
           redirect to "/win"
         end
       end
-   		@letters = read_names("names.txt")
     	session[:guesses] = session[:guesses] - 1
     	@guesses = session[:guesses]
+      @correct_letters = read_names("correct.txt")
     	@message = "Successfully stored the letter #{@letter}."
       @hidden_word = hide_word(@word, @correct_letters)
     	if @guesses == 0 
