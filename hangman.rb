@@ -19,6 +19,12 @@ def read_names(filename)
 	File.read(filename).split("\n")
 end
 
+def win(word, correct_letters)
+  if (word.split("") - correct_letters).empty?
+    return true
+  end
+end
+
 def hide_word(word, guessed_letters)
   hidden_word = []
   word_array = word.split("")
@@ -70,7 +76,7 @@ get "/" do
  	if !session[:word]
  		hangman = Hangmanword.new()
  		session[:word] = hangman.secret_word
- 		session[:guesses] = 5
+ 		session[:guesses] = 10
  		@guesses = session[:guesses]
  		empty_file("names.txt")
     empty_file("correct.txt")
@@ -97,6 +103,9 @@ post "/" do
       if check_includes(@word, @letter)
         store_name("correct.txt", @letter)
         @correct_letters = read_names("correct.txt")
+        if win(@word, @correct_letters)
+          redirect to "/win"
+        end
       end
    		@letters = read_names("names.txt")
     	session[:guesses] = session[:guesses] - 1
@@ -118,4 +127,9 @@ end
 get "/lose" do
 	session[:word] = nil
 	erb :lose
+end
+
+get "/win" do
+  session[:word] = nil
+  erb :win
 end
