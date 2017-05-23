@@ -1,16 +1,8 @@
 <html>
   <head>
-    <style>
-      body {
-        background: gray;
-        padding-top: 100px;
-        text-align:center;
-        font-size: 50px;
-      }
-    </style>
+    <link rel="stylesheet" href="/style.css">  
   </head>
   <body>
-    <p><%= @word %></p>
     <p>You have <%= @guesses %> guesses left </p>
     <p><%= @hidden_word %></p>
     <form action="/" method="post">

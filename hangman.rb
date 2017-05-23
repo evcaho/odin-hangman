@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'erb'
 require './word_generator'
-require './gamestate'
 
 enable :sessions
 
@@ -113,6 +112,7 @@ post "/" do
     		redirect to "/lose"
     	end
       if win(@word, @correct_letters)
+          old_word = session[:word]
           redirect to "/win"
       end
   	else
@@ -130,6 +130,7 @@ get "/lose" do
 end
 
 get "/win" do
+  @old_word
   session[:word] = nil
   erb :win
 end
