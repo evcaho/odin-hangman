@@ -41,10 +41,6 @@ def hide_word(word, guessed_letters)
 
 end
 
-def hidden_display
-  hidden_array = hide_word(word, guessed_letters)
-end
-
 def check_includes(word, letter)
   character_array = word.split("")
   if character_array.include?(letter)
@@ -81,7 +77,7 @@ end
 get "/" do
  	if !session[:word]
  		hangman = Hangmanword.new()
- 		session[:word] = hangman.secret_word
+ 		session[:word] = hangman.secret_word.downcase
  		session[:guesses] = 10
  		empty_file("names.txt")
     empty_file("correct.txt")
@@ -106,18 +102,19 @@ post "/" do
    		store_name("names.txt", @letter)
       if check_includes(@word, @letter)
         store_name("correct.txt", @letter)
-        if win(@word, @correct_letters)
-          redirect to "/win"
-        end
       end
     	session[:guesses] = session[:guesses] - 1
     	@guesses = session[:guesses]
       @correct_letters = read_names("correct.txt")
+      @letters = read_names("names.txt")
     	@message = "Successfully stored the letter #{@letter}."
       @hidden_word = hide_word(@word, @correct_letters)
     	if @guesses == 0 
     		redirect to "/lose"
     	end
+      if win(@word, @correct_letters)
+          redirect to "/win"
+      end
   	else
     	@message = validator.message
 
